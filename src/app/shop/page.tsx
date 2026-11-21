@@ -71,6 +71,11 @@ export default async function ShopPage({ searchParams }: Props) {
     getFilterOptions(),
   ]);
   const visibleCategories = options.categories.filter((category) => category.slug !== "accessories");
+  const filterProps = {
+    categories: visibleCategories,
+    sizes: options.sizes,
+    colors: options.colors,
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-8 md:px-8 md:py-12">
@@ -86,7 +91,7 @@ export default async function ShopPage({ searchParams }: Props) {
           <div>
             <h1 className="font-display text-5xl uppercase md:text-7xl">Semua Produk</h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
-              Streetwear pilihan dari seller independen. Saring berdasarkan kategori, brand, ukuran, warna, dan harga.
+              Streetwear pilihan dari seller independen. Saring berdasarkan kategori, ukuran, warna, dan harga.
             </p>
           </div>
           <p className="border border-line px-4 py-2 text-xs uppercase tracking-widest text-muted" aria-live="polite">
@@ -103,7 +108,7 @@ export default async function ShopPage({ searchParams }: Props) {
         <aside className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
             <Suspense fallback={<p className="text-sm text-muted">Memuat filter...</p>}>
-              <CatalogFilter {...options} categories={visibleCategories} />
+              <CatalogFilter {...filterProps} />
             </Suspense>
           </div>
         </aside>
@@ -113,7 +118,7 @@ export default async function ShopPage({ searchParams }: Props) {
             <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Filter produk</summary>
             <div className="mt-5">
               <Suspense fallback={<p className="text-sm text-muted">Memuat filter...</p>}>
-                <CatalogFilter {...options} categories={visibleCategories} />
+                <CatalogFilter {...filterProps} />
               </Suspense>
             </div>
           </details>

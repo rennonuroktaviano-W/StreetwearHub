@@ -6,13 +6,11 @@ import type { FilterOptions } from "@/lib/catalog-types";
 
 export function CatalogFilter({
   categories,
-  brands,
   sizes,
   colors,
   basePath = "/shop",
 }: {
   categories: FilterOptions["categories"];
-  brands: FilterOptions["brands"];
   sizes: string[];
   colors: string[];
   basePath?: string;
@@ -52,7 +50,6 @@ export function CatalogFilter({
 
   const activeCount =
     current("category").length +
-    current("brand").length +
     current("size").length +
     current("color").length +
     (params.get("minPrice") ? 1 : 0) +
@@ -73,7 +70,7 @@ export function CatalogFilter({
             className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline"
             onClick={() =>
               update((p) => {
-                ["category", "brand", "size", "color", "minPrice", "maxPrice"].forEach((key) => p.delete(key));
+                ["category", "size", "color", "minPrice", "maxPrice"].forEach((key) => p.delete(key));
               })
             }
           >
@@ -93,22 +90,6 @@ export function CatalogFilter({
             <label key={category.id} className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
               <input type="radio" name="category" className="accent-accent" checked={current("category").includes(category.slug)} onChange={() => setSingle("category", category.slug)} />
               {category.name}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset className="border-b border-line pb-5">
-        <legend className="mb-3 text-[11px] font-bold uppercase tracking-widest text-paper">Brand</legend>
-        <div className="space-y-2">
-          <label className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-            <input type="radio" name="brand" className="accent-accent" checked={!current("brand").length} onChange={() => setSingle("brand", "")} />
-            Semua brand
-          </label>
-          {brands.map((brand) => (
-            <label key={brand.id} className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-              <input type="radio" name="brand" className="accent-accent" checked={current("brand").includes(brand.slug)} onChange={() => setSingle("brand", brand.slug)} />
-              {brand.name}
             </label>
           ))}
         </div>

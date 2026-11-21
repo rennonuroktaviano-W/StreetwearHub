@@ -3,8 +3,9 @@ import { Suspense } from "react";
 import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/constants";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { TopBar } from "@/components/homepage/top-bar";
+import { Navbar } from "@/components/homepage/navbar";
+import { Footer } from "@/components/homepage/footer";
 import { CartProvider } from "@/components/cart-provider";
 
 const display = Anton({
@@ -46,9 +47,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <Suspense fallback={null}>
           <CartProvider>
-            <SiteHeader />
+            <TopBar />
+            <Navbar />
             <main className="flex-1">{children}</main>
-            <SiteFooter />
+            <Footer />
           </CartProvider>
         </Suspense>
       </body>

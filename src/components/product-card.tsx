@@ -32,11 +32,10 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           )}
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/0 via-black/0 to-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />
           <div className="absolute left-2 top-2 flex flex-wrap gap-1">
-            {badges.map((badge, i) => (
+            {badges.map((badge) => (
               <span
                 key={badge}
-                className={`animate-fade-up px-2 py-1 text-[9px] font-bold uppercase tracking-wider ${badgeClass[badge]}`}
-                style={{ animationDelay: `${i * 90}ms` }}
+                className={`px-2 py-1 text-[9px] font-bold uppercase tracking-wider ${badgeClass[badge]}`}
               >
                 {badge}
               </span>
@@ -50,7 +49,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
           </h3>
           <div className="mt-1 flex items-center justify-between">
             <span className="text-sm font-bold">{formatRupiah(minPrice(product.variants))}</span>
-            <span className="animate-arrow-nudge text-lg text-muted transition-colors group-hover:text-accent" aria-hidden>
+            <span className="text-lg text-muted transition-colors duration-200 group-hover:text-accent" aria-hidden>
               →
             </span>
           </div>

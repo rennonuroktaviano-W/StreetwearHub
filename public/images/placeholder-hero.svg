@@ -1,0 +1,10 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1120" viewBox="0 0 900 1120" role="img" aria-label="Model mengenakan pakaian streetwear StreetwearHub">
+  <rect width="900" height="1120" fill="#1A1A1A"/>
+  <rect x="40" y="40" width="820" height="1040" fill="none" stroke="#2E2E2E" stroke-width="2"/>
+  <path d="M450 180 L680 300 L680 760 L450 880 L220 760 L220 300 Z" fill="#111" stroke="#2E2E2E" stroke-width="2"/>
+  <path d="M450 260 L600 345 L600 680 L450 765 L300 680 L300 345 Z" fill="#E9E9E6"/>
+  <path d="M450 260 L600 345 L600 680 L450 765 L300 680 L300 345 Z" fill="none" stroke="#0B0B0B" stroke-width="1" stroke-dasharray="6 8"/>
+  <rect x="400" y="360" width="100" height="100" fill="#B3202A"/>
+  <text x="450" y="990" text-anchor="middle" font-family="Impact, sans-serif" font-size="86" letter-spacing="6" fill="#F5F5F3">STREETWEARHUB</text>
+  <text x="450" y="1035" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" letter-spacing="8" fill="#8A8A8A">BUILT FOR THE REAL ONES</text>
+</svg>

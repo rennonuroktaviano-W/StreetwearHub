@@ -18,9 +18,11 @@ function ViewerLoader() {
 export default function ProductViewer3D({
   color,
   lowPower,
+  modelUrl,
 }: {
   color: string | null | undefined;
   lowPower?: boolean;
+  modelUrl?: string | null;
 }) {
   const support = useThreeSupport();
   const disableShadows = lowPower ?? support.lowPower;
@@ -41,7 +43,7 @@ export default function ProductViewer3D({
           <Suspense fallback={null}>
             <Environment preset="city" />
           </Suspense>
-          <Model3D color={color} />
+          <Model3D color={color} modelUrl={modelUrl} />
           {!disableShadows && (
             <ContactShadows position={[0, -1.25, 0]} opacity={0.45} scale={6} blur={2.4} far={4} />
           )}

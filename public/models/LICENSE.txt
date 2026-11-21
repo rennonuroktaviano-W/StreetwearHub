@@ -1,0 +1,31 @@
+StreetwearHub 3D model assets
+=============================
+
+All models in this folder are third-party assets released under CC0 1.0 Universal
+(public domain). No brand logos, names, or textures from other clothing brands are used.
+
+Source: 3D Assets (https://3dassets.dev) - "Clothing Rail and Wardrobe" CC0 pack.
+License: CC0 1.0 Universal - https://creativecommons.org/publicdomain/zero/1.0/
+
+Files
+-----
+- SH-TSHIRT-001.glb      T-shirt on a hanger
+  Source: https://3dassets.dev/assets/clothing-rail-and-wardrobe-tshirt-on-hanger-c0e0e17d
+  CDN: https://cdn.3dassets.dev/assets/35447/v1/model.glb
+
+- SH-HOODIE-001.glb      Hoodie on a hanger
+  Source: https://3dassets.dev/assets/clothing-rail-and-wardrobe-hoodie-on-hanger-8ed88c32
+  CDN: https://cdn.3dassets.dev/assets/35452/v1/model.glb
+
+- SH-HOODIE-FOLD-001.glb Folded hoodie
+  Source: https://3dassets.dev/assets/clothing-rail-and-wardrobe-hoodie-folded-09036d1a
+  CDN: https://cdn.3dassets.dev/assets/35439/v1/model.glb
+
+- SH-SHIRT-001.glb       Shirt on a hanger (blue)
+  Source: https://3dassets.dev/assets/clothing-rail-and-wardrobe-shirt-on-hanger-blue-de94ebc7
+  CDN: https://cdn.3dassets.dev/assets/35450/v1/model.glb
+
+Naming convention: <SKU>.glb, e.g. SH-TSHIRT-001.glb. A product's SKU can be
+mapped to a model by passing the modelUrl prop to ProductViewer3D.
+
+All files are self-contained GLB (no external textures, no Draco decoder needed).

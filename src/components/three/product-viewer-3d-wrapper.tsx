@@ -17,10 +17,12 @@ export function ProductViewer3DWrapper({
   color,
   fallbackImage,
   name,
+  modelUrl,
 }: {
   color: string | null | undefined;
   fallbackImage: string | null;
   name: string;
+  modelUrl?: string | null;
 }) {
   const support = useThreeSupport();
 
@@ -41,5 +43,5 @@ export function ProductViewer3DWrapper({
 
   if (!support.ready) return <div className="h-full w-full bg-ink" />;
 
-  return <Viewer color={color} lowPower={support.lowPower} />;
+  return <Viewer color={color} lowPower={support.lowPower} modelUrl={modelUrl} />;
 }

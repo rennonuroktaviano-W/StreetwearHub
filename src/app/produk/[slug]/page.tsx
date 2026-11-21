@@ -85,6 +85,14 @@ export default async function ProductDetailPage({ params }: Props) {
 
   const related: ProductCardData[] = relatedRaw;
 
+  const categoryName = product.category?.name.toLowerCase() ?? "";
+  const productName = product.name.toLowerCase();
+  const modelUrl = categoryName.includes("outerwear") || productName.includes("hoodie") || productName.includes("jaket")
+    ? "/models/SH-HOODIE-001.glb"
+    : categoryName.includes("kaos") || productName.includes("tee") || productName.includes("shirt")
+      ? "/models/SH-TSHIRT-001.glb"
+      : "/models/SH-SHIRT-001.glb";
+
   return (
     <div className="mx-auto max-w-7xl px-5 py-8 md:px-8 md:py-12">
       <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-1 text-[10px] uppercase tracking-widest text-muted">
@@ -105,6 +113,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <ProductExperience
           images={product.images.map((image) => ({ url: image.url, alt: image.alt }))}
           name={product.name}
+          modelUrl={modelUrl}
           productId={product.id}
           productSlug={product.slug}
           image={product.images[0]?.url ?? null}

@@ -17,7 +17,7 @@ function SpinningModel({ paused, reduced }: { paused: boolean; reduced: boolean 
 
   return (
     <group ref={ref}>
-      <Model3D color="#1a1a1a" />
+      <Model3D color="#1a1a1a" modelUrl="/models/SH-HOODIE-001.glb" />
     </group>
   );
 }

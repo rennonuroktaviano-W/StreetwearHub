@@ -14,6 +14,7 @@ export function ProductExperience({
   sellerSlug,
   variants,
   details,
+  modelUrl,
 }: {
   images: { url: string; alt: string | null }[];
   name: string;
@@ -24,12 +25,13 @@ export function ProductExperience({
   sellerSlug: string;
   variants: PurchaseVariant[];
   details?: ReactNode;
+  modelUrl?: string | null;
 }) {
   const [color, setColor] = useState<string | null>(variants.find((v) => v.stock > 0)?.color ?? null);
 
   return (
     <div className="contents">
-      <ProductGallery images={images} name={name} color={color} show3D />
+      <ProductGallery images={images} name={name} color={color} show3D modelUrl={modelUrl} />
       <div>
         {details}
         <ProductPurchasePanel

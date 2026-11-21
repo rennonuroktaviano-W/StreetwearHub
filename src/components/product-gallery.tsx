@@ -11,11 +11,13 @@ export function ProductGallery({
   name,
   color,
   show3D = false,
+  modelUrl,
 }: {
   images: GalleryImage[];
   name: string;
   color?: string | null;
   show3D?: boolean;
+  modelUrl?: string | null;
 }) {
   const [tab, setTab] = useState<"photos" | "3d">("photos");
   const [active, setActive] = useState(0);
@@ -66,7 +68,7 @@ export function ProductGallery({
 
       {tab === "3d" ? (
         <div className="aspect-[3/4] w-full border border-line bg-ink">
-          <ProductViewer3DWrapper color={color} fallbackImage={current.url || null} name={name} />
+          <ProductViewer3DWrapper color={color} fallbackImage={current.url || null} name={name} modelUrl={modelUrl} />
         </div>
       ) : (
         <>

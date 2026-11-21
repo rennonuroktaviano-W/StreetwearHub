@@ -1,62 +1,82 @@
 "use client";
 
-import { useMemo } from "react";
+import { useGLTF } from "@react-three/drei";
+import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { colorToHex } from "@/components/three/color-utils";
 
-export function Model3D({ color }: { color: string | null | undefined }) {
+export function Model3D({
+  color,
+  modelUrl,
+}: {
+  color: string | null | undefined;
+  modelUrl?: string | null;
+}) {
+  const url = modelUrl ?? "/models/SH-TSHIRT-001.glb";
+  const { scene } = useGLTF(url);
   const hex = colorToHex(color);
 
-  const materials = useMemo(
-    () => ({
-      fabric: new THREE.MeshStandardMaterial({
-        color: hex,
-        roughness: 0.85,
-        metalness: 0.02,
-        side: THREE.DoubleSide,
-      }),
-      rib: new THREE.MeshStandardMaterial({
-        color: new THREE.Color(hex).multiplyScalar(0.82),
-        roughness: 0.9,
-        side: THREE.DoubleSide,
-      }),
-      thread: new THREE.MeshStandardMaterial({
-        color: new THREE.Color(hex).lerp(new THREE.Color("#f5f5f3"), 0.25),
-        roughness: 0.8,
-      }),
-    }),
-    [hex],
-  );
+  const clone = useMemo(() => {
+    const copy = scene.clone(true);
+    copy.traverse((node) => {
+      if (node instanceof THREE.Mesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+        if (node.material) {
+          node.material = Array.isArray(node.material)
+            ? node.material.map((material) => material.clone())
+            : node.material.clone();
+        }
+      }
+    });
+    return copy;
+  }, [scene]);
+
+  useEffect(() => {
+    const apply = (material: THREE.Material) => {
+      if (material instanceof THREE.MeshStandardMaterial) {
+        material.color.set(hex);
+        material.roughness = 0.85;
+        material.metalness = 0.02;
+        material.needsUpdate = true;
+      }
+    };
+
+    clone.traverse((node) => {
+      if (node instanceof THREE.Mesh && node.material) {
+        if (Array.isArray(node.material)) node.material.forEach(apply);
+        else apply(node.material);
+      }
+    });
+  }, [clone, hex]);
+
+  const box = useMemo(() => new THREE.Box3().setFromObject(clone), [clone]);
+  const size = useMemo(() => {
+    const vector = new THREE.Vector3();
+    box.getSize(vector);
+    return vector;
+  }, [box]);
+  const center = useMemo(() => {
+    const vector = new THREE.Vector3();
+    box.getCenter(vector);
+    return vector;
+  }, [box]);
+
+  const scale = useMemo(() => {
+    const max = Math.max(size.x, size.y, size.z) || 1;
+    return 2.2 / max;
+  }, [size]);
 
   return (
-    <group scale={1.15} position={[0, -0.1, 0]}>
-      <mesh material={materials.fabric} castShadow receiveShadow>
-        <boxGeometry args={[1.5, 1.7, 0.28]} />
-      </mesh>
-      <mesh material={materials.fabric} position={[-1.0, 0.45, 0]} rotation={[0, 0, 0.22]} castShadow>
-        <boxGeometry args={[0.62, 0.9, 0.26]} />
-      </mesh>
-      <mesh material={materials.fabric} position={[1.0, 0.45, 0]} rotation={[0, 0, -0.22]} castShadow>
-        <boxGeometry args={[0.62, 0.9, 0.26]} />
-      </mesh>
-      <mesh material={materials.rib} position={[0, 0.98, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-        <torusGeometry args={[0.3, 0.075, 12, 32]} />
-      </mesh>
-      <mesh material={materials.thread} position={[0, 0.18, 0.151]}>
-        <boxGeometry args={[0.5, 0.05, 0.01]} />
-      </mesh>
-      <mesh material={materials.thread} position={[0, -0.12, 0.151]}>
-        <boxGeometry args={[0.34, 0.04, 0.01]} />
-      </mesh>
-      <mesh material={materials.rib} position={[0, -0.87, 0]} castShadow>
-        <boxGeometry args={[1.52, 0.1, 0.3]} />
-      </mesh>
-      <mesh material={materials.rib} position={[-1.0, -0.02, 0]} rotation={[0, 0, 0.22]} castShadow>
-        <boxGeometry args={[0.64, 0.1, 0.28]} />
-      </mesh>
-      <mesh material={materials.rib} position={[1.0, -0.02, 0]} rotation={[0, 0, -0.22]} castShadow>
-        <boxGeometry args={[0.64, 0.1, 0.28]} />
-      </mesh>
+    <group>
+      <group
+        scale={scale}
+        position={[-center.x * scale, -center.y * scale, -center.z * scale]}
+      >
+        <primitive object={clone} />
+      </group>
     </group>
   );
 }
+
+useGLTF.preload("/models/SH-TSHIRT-001.glb");

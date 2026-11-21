@@ -71,6 +71,8 @@ export function buildCatalogWhere(input: CatalogInput): Prisma.ProductWhereInput
     where.category = { slug: input.categorySlug };
   } else if (input.category) {
     where.category = { slug: input.category };
+  } else {
+    where.AND = [{ NOT: { category: { slug: "accessories" } } }];
   }
 
   if (input.brandSlug) {

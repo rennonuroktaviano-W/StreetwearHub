@@ -43,7 +43,7 @@ const COLLECTIONS = [
   },
 ] as const;
 
-async function getCollection(match: readonly string[], take: number) {
+async function getCollection(match: readonly string[]) {
   return prisma.product.findMany({
     where: {
       status: "ACTIVE",
@@ -52,7 +52,6 @@ async function getCollection(match: readonly string[], take: number) {
       OR: match.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
     },
     orderBy: { publishedAt: "desc" },
-    take,
     include: {
       images: { orderBy: { position: "asc" }, take: 1 },
       variants: true,
@@ -65,7 +64,7 @@ export default async function CollectionsPage() {
   const groups = await Promise.all(
     COLLECTIONS.map(async (collection) => ({
       ...collection,
-      products: await getCollection(collection.match, 4),
+      products: await getCollection(collection.match),
     })),
   );
 

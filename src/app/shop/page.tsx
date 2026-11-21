@@ -70,6 +70,7 @@ export default async function ShopPage({ searchParams }: Props) {
     getCatalog(input),
     getFilterOptions(),
   ]);
+  const visibleCategories = options.categories.filter((category) => category.slug !== "accessories");
 
   return (
     <div className="mx-auto max-w-7xl px-5 py-8 md:px-8 md:py-12">
@@ -102,7 +103,7 @@ export default async function ShopPage({ searchParams }: Props) {
         <aside className="hidden lg:block">
           <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
             <Suspense fallback={<p className="text-sm text-muted">Memuat filter...</p>}>
-              <CatalogFilter {...options} />
+              <CatalogFilter {...options} categories={visibleCategories} />
             </Suspense>
           </div>
         </aside>
@@ -112,7 +113,7 @@ export default async function ShopPage({ searchParams }: Props) {
             <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Filter produk</summary>
             <div className="mt-5">
               <Suspense fallback={<p className="text-sm text-muted">Memuat filter...</p>}>
-                <CatalogFilter {...options} />
+                <CatalogFilter {...options} categories={visibleCategories} />
               </Suspense>
             </div>
           </details>

@@ -190,6 +190,24 @@ body {
   will-change: transform;
 }
 
+@keyframes sh-splash-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.splash-progress {
+  animation: sh-splash-progress 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash-leave {
+  animation: sh-splash-leave 400ms ease-in forwards;
+}
+
+@keyframes sh-splash-leave {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .category-card:hover .category-title,
 .category-card:focus-visible .category-title {
   transform: translateY(-4px);

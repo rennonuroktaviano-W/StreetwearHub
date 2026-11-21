@@ -8,6 +8,7 @@ import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { CartProvider } from "@/components/cart-provider";
 import { PageFade } from "@/components/motion/page-fade";
+import { SplashScreen } from "@/components/splash-screen";
 
 const display = Anton({
   variable: "--font-anton",
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="id" className={`${display.variable} ${body.variable} h-full`}>
       <body className="flex min-h-full flex-col">
+        <SplashScreen />
         <Suspense fallback={null}>
           <CartProvider>
             <TopBar />

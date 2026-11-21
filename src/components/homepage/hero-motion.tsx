@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
 import { MagneticButton } from "@/components/motion/magnetic-button";
-import { HeroModelLazy } from "@/components/three/hero-model-lazy";
 
 const WATERMARK_ROWS = Array.from(
   { length: 30 },
@@ -13,7 +13,7 @@ const WATERMARK_ROWS = Array.from(
     `#streethub ${index % 2 === 0 ? "#streethub" : "#hubstreet"} #streethub #streethub #streethub #streethub #streethub #streethub`,
 );
 
-export function HeroMotion() {
+export function HeroMotion({ image, name }: { image: string | null; name: string }) {
   const root = useRef<HTMLDivElement>(null);
   const imageWrap = useRef<HTMLDivElement>(null);
   const watermark = useRef<HTMLDivElement>(null);
@@ -136,12 +136,21 @@ export function HeroMotion() {
 
         <div className="relative">
           <div ref={imageWrap} className="relative z-10 aspect-[4/5] overflow-hidden border border-mid bg-black-sh">
-            <div className="absolute inset-0">
-              <HeroModelLazy />
-            </div>
+            {image ? (
+              <Image
+                src={image}
+                alt={name}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            ) : (
+              <div className="flex h-full items-center justify-center font-display text-6xl text-mid">SH</div>
+            )}
             <div className="pointer-events-none absolute bottom-3 left-3 border border-mid/80 bg-black-sh/80 px-2.5 py-1.5">
-              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted">
-                Model 3D · Seret untuk memutar
+              <p className="max-w-[18rem] truncate text-[9px] font-bold uppercase tracking-[0.16em] text-muted">
+                {name}
               </p>
             </div>
           </div>

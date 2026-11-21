@@ -1,20 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
 
-const FreshDropsModel = dynamic(() => import("@/components/three/fresh-drops-model"), {
-  ssr: false,
-  loading: () => <div className="h-full w-full bg-charcoal" />,
-});
-
-export function FreshDrops() {
+export function FreshDrops({ image, name }: { image: string | null; name: string }) {
   const root = useRef<HTMLElement>(null);
-  const image = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const signature = useRef<SVGPathElement>(null);
   const { reduced, mobile, ready } = useMotionPrefs();
 
@@ -31,10 +26,10 @@ export function FreshDrops() {
         });
       }
 
-      if (!reduced && !mobile && image.current) {
+      if (!reduced && !mobile && imageRef.current) {
         gsap.registerPlugin(ScrollTrigger);
         gsap.fromTo(
-          image.current,
+          imageRef.current,
           { xPercent: -5 },
           {
             xPercent: 5,
@@ -83,8 +78,17 @@ export function FreshDrops() {
           </Link>
         </div>
         <div className="relative aspect-[4/5] overflow-hidden border border-mid bg-charcoal md:aspect-[3/4]">
-          <div ref={image} className="absolute inset-0">
-            <FreshDropsModel />
+          <div ref={imageRef} className="absolute inset-0">
+            {image ? (
+              <Image src={image} alt={name} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
+            ) : (
+              <div className="flex h-full items-center justify-center font-display text-5xl text-mid">SH</div>
+            )}
+          </div>
+          <div className="pointer-events-none absolute bottom-3 left-3 border border-mid bg-black-sh/80 px-2.5 py-1.5">
+            <p className="max-w-[16rem] truncate text-[9px] font-bold uppercase tracking-[0.16em] text-offwhite">
+              {name}
+            </p>
           </div>
         </div>
         <div className="text-black-sh md:pl-2">

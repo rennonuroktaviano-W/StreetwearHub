@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { FEATURED_PRODUCTS } from "@/data/home";
-import { ProductCard } from "@/components/homepage/product-card";
+import { ProductCard } from "@/components/product-card";
 import { StaggerGroup } from "@/components/motion/stagger-group";
+import { productCardInclude } from "@/lib/catalog";
+import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@/generated/prisma";
 
-export function ProductGrid({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+export type FeaturedProduct = Prisma.ProductGetPayload<{ include: typeof productCardInclude }>;
+
+export function ProductGrid({ products }: { products: FeaturedProduct[] }) {
   return (
     <section className="mx-auto max-w-7xl px-5 py-14 md:px-8" aria-labelledby="featured-title">
       <div className="mb-6 flex items-end justify-between">
@@ -17,11 +21,27 @@ export function ProductGrid({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
           Lihat Semua →
         </Link>
       </div>
-      <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-5" stagger={0.06}>
-        {FEATURED_PRODUCTS.map((product) => (
-          <ProductCard key={product.id} product={product} isLoggedIn={isLoggedIn} />
-        ))}
-      </StaggerGroup>
+
+      {products.length === 0 ? (
+        <p className="border border-dashed border-line p-12 text-center text-sm text-muted">
+          Produk unggulan akan muncul setelah seller menayangkan produk.
+        </p>
+      ) : (
+        <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-5" stagger={0.06}>
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </StaggerGroup>
+      )}
     </section>
   );
+}
+
+export async function getFeaturedProducts() {
+  return prisma.product.findMany({
+    where: { status: "ACTIVE", seller: { status: "APPROVED" } },
+    orderBy: [{ soldCount: "desc" }, { publishedAt: "desc" }],
+    take: 5,
+    include: productCardInclude,
+  });
 }

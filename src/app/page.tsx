@@ -2,14 +2,13 @@ import { HeroMotion } from "@/components/homepage/hero-motion";
 import { CategoryGrid } from "@/components/homepage/category-grid";
 import { FreshDrops } from "@/components/homepage/fresh-drops";
 import { TrustStrip } from "@/components/homepage/trust-strip";
-import { ProductGrid } from "@/components/homepage/product-grid";
+import { ProductGrid, getFeaturedProducts } from "@/components/homepage/product-grid";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
-import { getSessionUser } from "@/lib/auth";
 
 export const instant = false;
 
 export default async function HomePage() {
-  const user = await getSessionUser();
+  const products = await getFeaturedProducts();
 
   return (
     <>
@@ -18,7 +17,7 @@ export default async function HomePage() {
       <CategoryGrid />
       <FreshDrops />
       <TrustStrip />
-      <ProductGrid isLoggedIn={Boolean(user)} />
+      <ProductGrid products={products} />
     </>
   );
 }

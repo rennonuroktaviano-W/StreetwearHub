@@ -214,26 +214,7 @@ body {
   animation: sh-pulse 1.8s ease-in-out infinite;
 }
 
-.add-to-cart-wrap {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 200ms ease, transform 200ms ease;
-}
 
-@media (min-width: 1024px) and (hover: hover) {
-  .add-to-cart-wrap {
-    opacity: 0;
-    transform: translateY(12px);
-    pointer-events: none;
-  }
-
-  .product-card:hover .add-to-cart-wrap,
-  .product-card:focus-within .add-to-cart-wrap {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,

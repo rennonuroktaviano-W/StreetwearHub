@@ -13,13 +13,6 @@ const NAV = [
   { href: "/about", label: "About" },
 ];
 
-function SearchIcon() {
-  return (
-    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" />
-    </svg>
-  );
-}
 function AccountIcon() {
   return (
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -70,9 +63,6 @@ export function NavbarShell({ accountHref }: { accountHref: string }) {
         </nav>
 
         <div className="flex items-center gap-5">
-          <Link href="/shop" aria-label="Cari produk" className="text-offwhite transition-colors duration-200 hover:text-accent">
-            <SearchIcon />
-          </Link>
           <Link href={accountHref} aria-label="Akun" className="hidden text-offwhite transition-colors duration-200 hover:text-accent sm:block">
             <AccountIcon />
           </Link>

@@ -70,6 +70,18 @@ export function HeroMotion() {
 
   return (
     <section ref={root} className="relative overflow-hidden border-b border-mid bg-charcoal" aria-labelledby="hero-title">
+      <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden>
+        <div className="absolute -left-10 top-4 flex -rotate-6 flex-col gap-2 whitespace-nowrap font-display text-[13vw] uppercase leading-[0.82] text-offwhite/[0.035] md:text-[7vw]">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <span key={i}>#streethub #streethub #streethub</span>
+          ))}
+        </div>
+        <div className="absolute -right-10 bottom-0 flex rotate-6 flex-col gap-2 whitespace-nowrap font-display text-[11vw] uppercase leading-[0.82] text-accent/[0.06] md:text-[6vw]">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span key={i}>#streethub built for the real ones</span>
+          ))}
+        </div>
+      </div>
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-2 md:items-center md:gap-14 md:px-8 md:py-20">
         <div className="relative z-10">
           <p data-hero-line className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">

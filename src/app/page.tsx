@@ -4,8 +4,13 @@ import { FreshDrops } from "@/components/homepage/fresh-drops";
 import { TrustStrip } from "@/components/homepage/trust-strip";
 import { ProductGrid } from "@/components/homepage/product-grid";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { getSessionUser } from "@/lib/auth";
 
-export default function HomePage() {
+export const instant = false;
+
+export default async function HomePage() {
+  const user = await getSessionUser();
+
   return (
     <>
       <SmoothScroll />
@@ -13,7 +18,7 @@ export default function HomePage() {
       <CategoryGrid />
       <FreshDrops />
       <TrustStrip />
-      <ProductGrid />
+      <ProductGrid isLoggedIn={Boolean(user)} />
     </>
   );
 }

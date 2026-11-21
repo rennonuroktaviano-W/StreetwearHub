@@ -9,7 +9,7 @@ const BADGE_STYLE: Record<NonNullable<DummyProduct["badge"]>, string> = {
   "SOLD OUT": "bg-mid text-offwhite",
 };
 
-export function ProductCard({ product }: { product: DummyProduct }) {
+export function ProductCard({ product, isLoggedIn = false }: { product: DummyProduct; isLoggedIn?: boolean }) {
   return (
     <article className="product-card group">
       <div className="relative aspect-[3/4] overflow-hidden border border-mid bg-charcoal">
@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: DummyProduct }) {
           3D
         </span>
         <div className="add-to-cart-wrap absolute inset-x-0 bottom-0 z-30 p-2">
-          <AddToCartButton product={product} />
+          <AddToCartButton product={product} isLoggedIn={isLoggedIn} />
         </div>
       </div>
       <Link href={`/produk/${product.id}`} className="block pt-3" data-cursor>

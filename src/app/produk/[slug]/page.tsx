@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { getSessionUser } from "@/lib/auth";
 import { ProductCard } from "@/components/product-card";
 import { ProductExperience } from "@/components/product-experience";
 import { formatRupiah } from "@/lib/constants";
@@ -46,6 +47,9 @@ const badgeStyle: Record<ProductBadge, string> = {
 };
 
 export default async function ProductDetailPage({ params }: Props) {
+  const user = await getSessionUser();
+  if (!user) redirect(`/login?next=/produk/${(await params).slug}`);
+
   const { slug } = await params;
   const product = await prisma.product.findFirst({
     where: { ...publicProductWhere, slug },

@@ -1,11 +1,16 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
+
+const FreshDropsModel = dynamic(() => import("@/components/three/fresh-drops-model"), {
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-charcoal" />,
+});
 
 export function FreshDrops() {
   const root = useRef<HTMLElement>(null);
@@ -79,13 +84,7 @@ export function FreshDrops() {
         </div>
         <div className="relative aspect-[4/5] overflow-hidden border border-mid bg-charcoal md:aspect-[3/4]">
           <div ref={image} className="absolute inset-0">
-            <Image
-              src="/images/product-2.svg"
-              alt="Jaket utility dari koleksi Fresh Drops StreetwearHub"
-              fill
-              sizes="(max-width: 768px) 100vw, 40vw"
-              className="object-cover"
-            />
+            <FreshDropsModel />
           </div>
         </div>
         <div className="text-black-sh md:pl-2">

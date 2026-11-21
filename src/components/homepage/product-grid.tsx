@@ -3,7 +3,7 @@ import { FEATURED_PRODUCTS } from "@/data/home";
 import { ProductCard } from "@/components/homepage/product-card";
 import { StaggerGroup } from "@/components/motion/stagger-group";
 
-export function ProductGrid() {
+export function ProductGrid({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   return (
     <section className="mx-auto max-w-7xl px-5 py-14 md:px-8" aria-labelledby="featured-title">
       <div className="mb-6 flex items-end justify-between">
@@ -19,7 +19,7 @@ export function ProductGrid() {
       </div>
       <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-5" stagger={0.06}>
         {FEATURED_PRODUCTS.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product} isLoggedIn={isLoggedIn} />
         ))}
       </StaggerGroup>
     </section>

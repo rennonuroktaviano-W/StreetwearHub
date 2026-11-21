@@ -1,14 +1,11 @@
 import "server-only";
 import { cookies } from "next/headers";
-import { createHash, randomBytes } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { prisma } from "@/lib/prisma";
+import { SESSION_COOKIE, hashToken } from "@/lib/session-token";
 
-export const SESSION_COOKIE = "sh_session";
+export { SESSION_COOKIE, hashToken };
 const SESSION_DAYS = 7;
-
-export function hashToken(token: string): string {
-  return createHash("sha256").update(token).digest("hex");
-}
 
 export function generateToken(): string {
   return randomBytes(32).toString("hex");

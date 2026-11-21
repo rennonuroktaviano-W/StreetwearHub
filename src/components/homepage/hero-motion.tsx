@@ -7,13 +7,11 @@ import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { HeroModelLazy } from "@/components/three/hero-model-lazy";
 
-const WATERMARK_ROWS = [
-  "#streethub #streethub #streethub",
-  "#streethub #streethub #streethub",
-  "#streethub #streethub #streethub",
-  "#streethub #streethub #streethub",
-  "#streethub #streethub #streethub",
-];
+const WATERMARK_ROWS = Array.from(
+  { length: 30 },
+  (_, index) =>
+    `#streethub ${index % 2 === 0 ? "#streethub" : "#hubstreet"} #streethub #streethub #streethub #streethub #streethub #streethub`,
+);
 
 export function HeroMotion() {
   const root = useRef<HTMLDivElement>(null);
@@ -79,17 +77,20 @@ export function HeroMotion() {
   return (
     <section ref={root} className="relative overflow-hidden border-b border-mid bg-charcoal" aria-labelledby="hero-title">
       <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden>
-        <div ref={watermark} className="absolute inset-0 flex -rotate-3 flex-col justify-center gap-3">
+        <div
+          ref={watermark}
+          className="absolute -inset-x-[50%] -inset-y-[60%] flex -rotate-6 flex-col justify-center gap-0"
+        >
           {WATERMARK_ROWS.map((row, index) => (
             <span
               key={index}
-              className="block whitespace-nowrap font-display text-[9vw] uppercase leading-[0.9] tracking-[0.02em] text-offwhite/[0.035] md:text-[5vw]"
+              className="block whitespace-nowrap font-display text-[8vw] uppercase leading-[0.82] tracking-[0.01em] text-offwhite/[0.05] md:text-[4.5vw]"
             >
               {row}
             </span>
           ))}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/80 via-transparent to-transparent" />
       </div>
 
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-2 md:items-center md:gap-14 md:px-8 md:py-20">

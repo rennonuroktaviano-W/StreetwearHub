@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { CATEGORIES } from "@/data/home";
 import { StaggerGroup } from "@/components/motion/stagger-group";
-import { CardModel3DLazy } from "@/components/three/card-model-3d-lazy";
 
 export function CategoryGrid() {
   return (
@@ -23,31 +22,25 @@ export function CategoryGrid() {
           <Link
             key={category.name}
             href={`/shop?kategori=${encodeURIComponent(category.name)}`}
-            className="category-card group relative flex aspect-square flex-col overflow-hidden bg-black-sh"
-            data-cursor
+            className="category-card group relative flex min-h-52 flex-col justify-between bg-black-sh p-5"
           >
-            <div className="relative min-h-0 flex-1" aria-hidden>
-              <CardModel3DLazy
-                url={category.modelUrl}
-                fallbackImage={category.image}
-                name={category.name}
-                color="#3a3a3a"
-              />
-            </div>
-
-            <div className="relative z-10 shrink-0 border-t border-mid bg-black-sh/95 px-4 py-3">
-              <h3 className="category-title font-display text-lg uppercase leading-none text-offwhite transition-transform duration-200 md:text-xl">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+                {String(CATEGORIES.indexOf(category) + 1).padStart(2, "0")}
+              </span>
+              <h3 className="category-title mt-3 font-display text-2xl uppercase leading-none text-offwhite transition-transform duration-200 md:text-3xl">
                 {category.name}
               </h3>
-              <span className="category-rule mt-2 block h-px w-8 origin-left scale-x-0 bg-accent transition-transform duration-200" aria-hidden />
-              <div className="mt-2 flex items-center justify-between gap-2">
-                <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  {category.count} produk
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-accent">
-                  Shop Now →
-                </span>
-              </div>
+              <span className="category-rule mt-3 block h-px w-8 origin-left scale-x-0 bg-accent transition-transform duration-200" aria-hidden />
+              <p className="mt-3 text-xs leading-relaxed text-muted">{category.description}</p>
+            </div>
+            <div className="mt-6 flex items-center justify-between gap-2 border-t border-mid pt-3">
+              <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
+                {category.count} produk
+              </span>
+              <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-accent">
+                Shop Now →
+              </span>
             </div>
           </Link>
         ))}

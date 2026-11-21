@@ -10,10 +10,10 @@ export type DummyProduct = {
 };
 
 export const CATEGORIES = [
-  { name: "T-Shirts", image: "/images/placeholder-tshirt.svg", modelUrl: "/models/SH-TSHIRT-001.glb", count: 128 },
-  { name: "Outerwear", image: "/images/placeholder-jacket.svg", modelUrl: "/models/SH-HOODIE-001.glb", count: 74 },
-  { name: "Footwear", image: "/images/placeholder-sneaker.svg", modelUrl: "/models/SH-SHIRT-001.glb", count: 56 },
-  { name: "Accessories", image: "/images/placeholder-cap.svg", modelUrl: "/models/SH-HOODIE-FOLD-001.glb", count: 92 },
+  { name: "T-Shirts", description: "Kaos grafis, boxy, dan basic untuk setiap hari.", count: 128 },
+  { name: "Outerwear", description: "Jaket, hoodie, dan layer untuk kuat di segala cuaca.", count: 74 },
+  { name: "Footwear", description: "Sneakers dan sepatu streetwear dari seller independen.", count: 56 },
+  { name: "Accessories", description: "Topi, tas, dan detail kecil yang mengubah look.", count: 92 },
 ] as const;
 
 export const FEATURED_PRODUCTS: DummyProduct[] = [

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { hashSync } from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../src/generated/prisma";
+import { PrismaClient } from "../src/prisma-client";
 
 const url = process.env.DATABASE_URL;
 if (!url) throw new Error("DATABASE_URL belum disetel");

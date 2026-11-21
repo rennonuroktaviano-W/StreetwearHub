@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@/generated/prisma";
+import type { Prisma } from "@/prisma-client";
 import { PAGE_SIZE, SORTS } from "@/lib/catalog-types";
 import type { CatalogInput, RawSearchParams, SortKey } from "@/lib/catalog-types";
 

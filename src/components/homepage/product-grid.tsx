@@ -3,7 +3,7 @@ import { ProductCard } from "@/components/product-card";
 import { StaggerGroup } from "@/components/motion/stagger-group";
 import { productCardInclude } from "@/lib/catalog";
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@/generated/prisma";
+import type { Prisma } from "@/prisma-client";
 
 export type FeaturedProduct = Prisma.ProductGetPayload<{ include: typeof productCardInclude }>;
 

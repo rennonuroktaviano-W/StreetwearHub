@@ -4,6 +4,7 @@ export type DummyProduct = {
   seller: string;
   price: number;
   image: string;
+  hoverImage?: string;
   badge?: "NEW" | "LIMITED" | "SOLD OUT";
 };
 
@@ -15,10 +16,10 @@ export const CATEGORIES = [
 ] as const;
 
 export const FEATURED_PRODUCTS: DummyProduct[] = [
-  { id: "p1", name: "Heavyweight Boxy Tee", seller: "Ruang Gelap Co.", price: 189000, image: "/images/product-1.svg", badge: "NEW" },
-  { id: "p2", name: "Utility Worker Jacket", seller: "Sudut Utara", price: 425000, image: "/images/product-2.svg", badge: "LIMITED" },
-  { id: "p3", name: "Trail Runner 01", seller: "Langkah Studio", price: 689000, image: "/images/product-3.svg" },
-  { id: "p4", name: "Washed Cargo Pant", seller: "Garis Hitam", price: 315000, image: "/images/product-4.svg" },
+  { id: "p1", name: "Heavyweight Boxy Tee", seller: "Ruang Gelap Co.", price: 189000, image: "/images/product-1.svg", hoverImage: "/images/product-4.svg", badge: "NEW" },
+  { id: "p2", name: "Utility Worker Jacket", seller: "Sudut Utara", price: 425000, image: "/images/product-2.svg", hoverImage: "/images/product-1.svg", badge: "LIMITED" },
+  { id: "p3", name: "Trail Runner 01", seller: "Langkah Studio", price: 689000, image: "/images/product-3.svg", hoverImage: "/images/product-5.svg" },
+  { id: "p4", name: "Washed Cargo Pant", seller: "Garis Hitam", price: 315000, image: "/images/product-4.svg", hoverImage: "/images/product-2.svg" },
   { id: "p5", name: "Canvas Logo Cap", seller: "Kepingan Kota", price: 129000, image: "/images/product-5.svg", badge: "SOLD OUT" },
 ];
 

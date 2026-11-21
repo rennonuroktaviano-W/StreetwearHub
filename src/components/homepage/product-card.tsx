@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { DummyProduct, formatPrice } from "@/data/home";
+import { AddToCartButton } from "@/components/homepage/add-to-cart-button";
 
 const BADGE_STYLE: Record<NonNullable<DummyProduct["badge"]>, string> = {
   NEW: "bg-offwhite text-black-sh",
@@ -10,21 +11,34 @@ const BADGE_STYLE: Record<NonNullable<DummyProduct["badge"]>, string> = {
 
 export function ProductCard({ product }: { product: DummyProduct }) {
   return (
-    <article>
-      <Link href={`/produk/${product.id}`} className="group block">
+    <article className="product-card group">
+      <Link href={`/produk/${product.id}`} className="block" data-cursor>
         <div className="relative aspect-[3/4] overflow-hidden border border-mid bg-charcoal">
           <Image
             src={product.image}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-            className="object-cover transition-opacity duration-200 group-hover:opacity-90"
+            className="product-image object-cover transition-opacity duration-300 group-hover:opacity-0"
           />
+          {product.hoverImage && (
+            <Image
+              src={product.hoverImage}
+              alt=""
+              aria-hidden
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+              className="product-image-hover absolute inset-0 object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            />
+          )}
           {product.badge && (
-            <span className={`absolute left-2 top-2 px-2 py-1 text-[9px] font-bold uppercase tracking-wider ${BADGE_STYLE[product.badge]}`}>
+            <span className={`absolute left-2 top-2 z-20 px-2 py-1 text-[9px] font-bold uppercase tracking-wider ${BADGE_STYLE[product.badge]} ${product.badge === "LIMITED" ? "sh-pulse" : ""}`}>
               {product.badge}
             </span>
           )}
+          <div className="add-to-cart-wrap absolute inset-x-0 bottom-0 z-10 p-2">
+            <AddToCartButton product={product} />
+          </div>
         </div>
         <div className="pt-3">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">{product.seller}</p>
@@ -33,9 +47,7 @@ export function ProductCard({ product }: { product: DummyProduct }) {
           </h3>
           <div className="mt-1.5 flex items-center justify-between gap-2">
             <span className="text-sm font-bold text-offwhite">{formatPrice(product.price)}</span>
-            <span className="text-lg text-muted transition-colors duration-200 group-hover:text-accent" aria-hidden>
-              →
-            </span>
+            <span className="text-lg text-muted transition-colors duration-200 group-hover:text-accent" aria-hidden>→</span>
           </div>
         </div>
       </Link>

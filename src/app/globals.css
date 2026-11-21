@@ -50,6 +50,30 @@ body {
   letter-spacing: 0.01em;
 }
 
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 200ms ease;
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -133,6 +157,59 @@ body {
 @keyframes sh-shimmer {
   from { background-position: -200% 0; }
   to { background-position: 200% 0; }
+}
+
+@keyframes sh-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.sh-marquee {
+  animation: sh-marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.category-card:hover .category-title,
+.category-card:focus-visible .category-title {
+  transform: translateY(-4px);
+}
+
+.category-card:hover .category-rule,
+.category-card:focus-visible .category-rule {
+  transform: scaleX(1);
+}
+
+.mask-line {
+  display: block;
+  overflow: hidden;
+}
+
+@keyframes sh-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.sh-pulse {
+  animation: sh-pulse 1.8s ease-in-out infinite;
+}
+
+.add-to-cart-wrap {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+@media (min-width: 1024px) and (hover: hover) {
+  .add-to-cart-wrap {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  .product-card:hover .add-to-cart-wrap,
+  .product-card:focus-within .add-to-cart-wrap {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

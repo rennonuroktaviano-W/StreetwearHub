@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FEATURED_PRODUCTS } from "@/data/home";
 import { ProductCard } from "@/components/homepage/product-card";
+import { StaggerGroup } from "@/components/motion/stagger-group";
 
 export function ProductGrid() {
   return (
@@ -16,11 +17,11 @@ export function ProductGrid() {
           Lihat Semua →
         </Link>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-5">
+      <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-5" stagger={0.06}>
         {FEATURED_PRODUCTS.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
-      </div>
+      </StaggerGroup>
     </section>
   );
 }

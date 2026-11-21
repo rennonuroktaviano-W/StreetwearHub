@@ -7,6 +7,7 @@ import { TopBar } from "@/components/homepage/top-bar";
 import { Navbar } from "@/components/homepage/navbar";
 import { Footer } from "@/components/homepage/footer";
 import { CartProvider } from "@/components/cart-provider";
+import { PageFade } from "@/components/motion/page-fade";
 
 const display = Anton({
   variable: "--font-anton",
@@ -49,7 +50,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <CartProvider>
             <TopBar />
             <Navbar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1">
+              <PageFade>{children}</PageFade>
+            </main>
             <Footer />
           </CartProvider>
         </Suspense>

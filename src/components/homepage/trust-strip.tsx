@@ -1,10 +1,13 @@
+"use client";
+
+import { motion } from "motion/react";
+import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
+
 const TRUST = [
   {
     title: "Pengiriman Cepat",
     desc: "Dari seller langsung ke pintumu",
-    icon: (
-      <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-    ),
+    icon: <path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM18 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />,
   },
   {
     title: "Pembayaran Aman",
@@ -24,17 +27,26 @@ const TRUST = [
 ];
 
 export function TrustStrip() {
+  const { reduced, ready } = useMotionPrefs();
+
   return (
     <section className="border-b border-mid bg-light" aria-label="Keunggulan layanan">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-mid md:grid-cols-4 md:px-8">
-        {TRUST.map((item) => (
-          <div key={item.title} className="flex flex-col items-center bg-light px-4 py-8 text-center text-black-sh">
+        {TRUST.map((item, index) => (
+          <motion.div
+            key={item.title}
+            className="flex flex-col items-center bg-light px-4 py-8 text-center text-black-sh"
+            initial={!ready || reduced ? false : { opacity: 0, scale: 0 }}
+            whileInView={!ready || reduced ? undefined : { opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -40px 0px" }}
+            transition={{ type: "spring", stiffness: 380, damping: 16, delay: index * 0.1 }}
+          >
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent" aria-hidden>
               {item.icon}
             </svg>
             <h3 className="mt-3 text-xs font-bold uppercase tracking-[0.12em]">{item.title}</h3>
             <p className="mt-1.5 text-[11px] leading-relaxed text-mid">{item.desc}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

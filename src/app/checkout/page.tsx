@@ -5,6 +5,8 @@ import { getSessionUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { CheckoutForm } from "@/components/checkout-form";
 
+export const instant = false;
+
 export const metadata: Metadata = { title: "Checkout" };
 
 export default async function CheckoutPage() {

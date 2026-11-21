@@ -6,6 +6,8 @@ import { formatRupiah } from "@/lib/constants";
 import { cancelOrderAction } from "@/app/actions/order";
 import { ORDER_STATUS_LABEL } from "@/lib/order";
 
+export const instant = false;
+
 export default async function PesananPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/akun/pesanan");

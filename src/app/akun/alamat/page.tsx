@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { AddressForm } from "@/components/address-form";
 import { AddressList } from "@/components/address-list";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<{ saved?: string }> };
 
 export default async function AlamatPage({ searchParams }: Props) {

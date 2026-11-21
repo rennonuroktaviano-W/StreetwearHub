@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { formatRupiah } from "@/lib/constants";
 import { requireSeller } from "@/lib/seller-guard";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export default async function SellerOrdersPage({ searchParams }: Props) {

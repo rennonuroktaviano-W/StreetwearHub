@@ -3,6 +3,8 @@ import { AuthShell } from "@/components/auth-shell";
 import { ForgotPasswordForm } from "@/components/auth-forgot-form";
 import Link from "next/link";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<{ sent?: string }> };
 
 export default async function LupaPasswordPage({ searchParams }: Props) {

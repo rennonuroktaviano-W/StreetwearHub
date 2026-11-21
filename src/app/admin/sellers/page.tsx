@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { approveSellerFormAction, disableSellerFormAction, rejectSellerFormAction } from "@/app/actions/admin";
 
+export const instant = false;
+
 export default async function AdminSellersPage() {
   const sellers = await prisma.seller.findMany({
     where: { status: { in: ["PENDING", "APPROVED", "REJECTED", "DISABLED"] } },

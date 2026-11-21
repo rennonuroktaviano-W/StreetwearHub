@@ -7,6 +7,8 @@ import { formatRupiah } from "@/lib/constants";
 import { SnapPayment } from "@/components/snap-payment";
 import { formatAddress, parseAddressSnapshot } from "@/lib/order";
 
+export const instant = false;
+
 export const metadata: Metadata = { title: "Konfirmasi Pesanan" };
 
 type Props = {

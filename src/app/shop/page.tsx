@@ -5,6 +5,8 @@ import { ProductCard } from "@/components/product-card";
 import { CatalogFilter } from "@/components/catalog-filter";
 import { getCatalog, getFilterOptions, parseCatalogParams, type RawSearchParams } from "@/lib/catalog";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<RawSearchParams> };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {

@@ -1,5 +1,7 @@
 import { LoginPageBody } from "@/components/auth-pages";
 
+export const instant = false;
+
 type LoginPageProps = {
   searchParams: Promise<{ next?: string; reset?: string }>;
 };

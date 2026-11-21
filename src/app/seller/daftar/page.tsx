@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { SellerRegisterForm } from "@/components/seller-register-form";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<{ next?: string }> };
 
 export default async function SellerDaftarPage({ searchParams }: Props) {

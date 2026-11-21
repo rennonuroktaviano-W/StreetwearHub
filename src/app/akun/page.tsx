@@ -2,6 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 
+export const instant = false;
+
 export default async function AkunPage() {
   const user = await getSessionUser();
   if (!user) redirect("/login?next=/akun");

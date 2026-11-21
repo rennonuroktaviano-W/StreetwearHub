@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { AdminActionForm } from "@/components/admin-action-form";
 import { deleteCategoryFormAction, saveCategoryAction } from "@/app/actions/admin";
 
+export const instant = false;
+
 export default async function AdminKategoriPage() {
   const categories = await prisma.category.findMany({ orderBy: { name: "asc" } });
 

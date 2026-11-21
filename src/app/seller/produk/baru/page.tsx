@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSeller } from "@/lib/seller-guard";
 import { SellerProductForm } from "@/components/seller-product-form";
 
+export const instant = false;
+
 export default async function NewProductPage() {
   await requireSeller();
   const [categories, brands] = await Promise.all([

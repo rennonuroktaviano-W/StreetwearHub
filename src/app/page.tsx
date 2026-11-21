@@ -4,6 +4,8 @@ import { ProductCard } from "@/components/product-card";
 import Image from "next/image";
 import Link from "next/link";
 
+export const instant = false;
+
 async function getHomeData() {
   const [categories, fresh, featured] = await Promise.all([
     prisma.category.findMany({

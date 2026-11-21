@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { ListingPage } from "@/components/catalog-listing";
 import type { RawSearchParams } from "@/lib/catalog";
 
+export const instant = false;
+
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<RawSearchParams>;

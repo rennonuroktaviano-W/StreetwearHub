@@ -5,6 +5,8 @@ import { formatRupiah } from "@/lib/constants";
 import { requireSeller } from "@/lib/seller-guard";
 import { SellerOrderUpdateForm } from "@/components/seller-order-update-form";
 
+export const instant = false;
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function SellerOrderDetailPage({ params }: Props) {

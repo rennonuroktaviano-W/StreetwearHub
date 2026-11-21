@@ -6,6 +6,8 @@ import { formatRupiah } from "@/lib/constants";
 import { cancelOrderAction } from "@/app/actions/order";
 import { formatAddress, ORDER_STATUS_LABEL, parseAddressSnapshot } from "@/lib/order";
 
+export const instant = false;
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function DetailPesananPage({ params }: Props) {

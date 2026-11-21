@@ -5,6 +5,8 @@ import { requireSeller } from "@/lib/seller-guard";
 import { minPrice } from "@/lib/product";
 import { ToggleStatusButton, DeleteProductButton } from "@/components/seller-product-actions";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 const filters = ["ALL", "DRAFT", "ACTIVE", "HIDDEN", "MODERATED"] as const;

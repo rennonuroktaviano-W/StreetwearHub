@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatRupiah } from "@/lib/constants";
 
+export const instant = false;
+
 export default async function AdminDashboardPage() {
   const [sellersPending, sellersApproved, products, categories, brands, ordersPaid, revenue] = await Promise.all([
     prisma.seller.count({ where: { status: "PENDING" } }),

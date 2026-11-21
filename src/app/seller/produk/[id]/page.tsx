@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { requireSeller } from "@/lib/seller-guard";
 import { SellerProductForm } from "@/components/seller-product-form";
 
+export const instant = false;
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function EditProductPage({ params }: Props) {

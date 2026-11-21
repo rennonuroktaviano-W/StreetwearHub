@@ -1,5 +1,7 @@
 import { RegisterPageBody } from "@/components/auth-pages";
 
+export const instant = false;
+
 type RegisterPageProps = {
   searchParams: Promise<{ next?: string }>;
 };

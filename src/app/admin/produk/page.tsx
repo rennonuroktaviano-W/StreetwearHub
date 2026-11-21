@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { moderateProductFormAction } from "@/app/actions/admin";
 
+export const instant = false;
+
 export default async function AdminProdukPage() {
   const products = await prisma.product.findMany({
     include: { seller: { select: { name: true } }, variants: { select: { price: true, stock: true } } },

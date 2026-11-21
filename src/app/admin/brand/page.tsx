@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { AdminActionForm } from "@/components/admin-action-form";
 import { deleteBrandFormAction, saveBrandAction } from "@/app/actions/admin";
 
+export const instant = false;
+
 export default async function AdminBrandPage() {
   const brands = await prisma.brand.findMany({ orderBy: { name: "asc" } });
 

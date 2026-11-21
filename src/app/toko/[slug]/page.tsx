@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/product-card";
 import { getCatalog, parseCatalogParams, type RawSearchParams } from "@/lib/catalog";
 
+export const instant = false;
+
 type Props = {
   params: Promise<{ slug: string }>;
   searchParams: Promise<RawSearchParams>;

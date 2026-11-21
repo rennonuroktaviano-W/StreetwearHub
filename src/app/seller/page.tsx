@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireSeller } from "@/lib/seller-guard";
 
+export const instant = false;
+
 export default async function SellerDashboardPage() {
   const { seller } = await requireSeller();
 

@@ -8,6 +8,8 @@ import { ProductPurchasePanel } from "@/components/product-purchase-panel";
 import { formatRupiah } from "@/lib/constants";
 import { getBadges, minPrice, type ProductBadge, type ProductCardData } from "@/lib/product";
 
+export const instant = false;
+
 type Props = { params: Promise<{ slug: string }> };
 
 const publicProductWhere = {

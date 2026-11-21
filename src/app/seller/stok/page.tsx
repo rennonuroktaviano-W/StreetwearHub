@@ -2,6 +2,8 @@ import { requireSeller } from "@/lib/seller-guard";
 import { prisma } from "@/lib/prisma";
 import { StockForm } from "@/components/stock-form";
 
+export const instant = false;
+
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
 
 export default async function SellerStockPage({ searchParams }: Props) {

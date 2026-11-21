@@ -49,3 +49,6 @@ dist/
 /.claude/
 /.windsurf/
 /skills-lock.json
+
+.vercel
+.env*

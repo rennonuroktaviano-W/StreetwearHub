@@ -11,7 +11,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:seed": "tsx prisma/seed.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "node -e \"console.log('Prisma client already committed')\""
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.1",

@@ -9,7 +9,7 @@ import { MobileMenu } from "@/components/homepage/mobile-menu";
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/shop?sort=newest", label: "Collections" },
+  { href: "/collections", label: "Collections" },
   { href: "/about", label: "About" },
 ];
 

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 const MENU = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
-  { href: "/shop?sort=newest", label: "Collections" },
+  { href: "/collections", label: "Collections" },
   { href: "/about", label: "About" },
 ];
 

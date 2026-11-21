@@ -70,7 +70,9 @@ export default async function ShopPage({ searchParams }: Props) {
     getCatalog(input),
     getFilterOptions(),
   ]);
-  const visibleCategories = options.categories.filter((category) => category.slug !== "accessories");
+  const visibleCategories = options.categories.filter(
+    (category) => category.slug !== "accessories" && category.slug !== "aksesoris",
+  );
   const filterProps = {
     categories: visibleCategories,
     sizes: options.sizes,

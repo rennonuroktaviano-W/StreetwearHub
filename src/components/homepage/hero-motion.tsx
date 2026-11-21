@@ -7,10 +7,18 @@ import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
 import { MagneticButton } from "@/components/motion/magnetic-button";
 import { HeroModelLazy } from "@/components/three/hero-model-lazy";
 
+const WATERMARK_ROWS = [
+  "#streethub #streethub #streethub",
+  "#streethub #streethub #streethub",
+  "#streethub #streethub #streethub",
+  "#streethub #streethub #streethub",
+  "#streethub #streethub #streethub",
+];
+
 export function HeroMotion() {
   const root = useRef<HTMLDivElement>(null);
   const imageWrap = useRef<HTMLDivElement>(null);
-  const watermark = useRef<HTMLSpanElement>(null);
+  const watermark = useRef<HTMLDivElement>(null);
   const { reduced, mobile, ready } = useMotionPrefs();
 
   useEffect(() => {
@@ -50,9 +58,9 @@ export function HeroMotion() {
         );
         gsap.fromTo(
           watermark.current,
-          { yPercent: 10 },
+          { yPercent: -4 },
           {
-            yPercent: -10,
+            yPercent: 4,
             ease: "none",
             scrollTrigger: {
               trigger: root.current,
@@ -71,31 +79,33 @@ export function HeroMotion() {
   return (
     <section ref={root} className="relative overflow-hidden border-b border-mid bg-charcoal" aria-labelledby="hero-title">
       <div className="pointer-events-none absolute inset-0 select-none overflow-hidden" aria-hidden>
-        <div className="absolute -left-10 top-4 flex -rotate-6 flex-col gap-2 whitespace-nowrap font-display text-[13vw] uppercase leading-[0.82] text-offwhite/[0.035] md:text-[7vw]">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <span key={i}>#streethub #streethub #streethub</span>
+        <div ref={watermark} className="absolute inset-0 flex -rotate-3 flex-col justify-center gap-3">
+          {WATERMARK_ROWS.map((row, index) => (
+            <span
+              key={index}
+              className="block whitespace-nowrap font-display text-[9vw] uppercase leading-[0.9] tracking-[0.02em] text-offwhite/[0.035] md:text-[5vw]"
+            >
+              {row}
+            </span>
           ))}
         </div>
-        <div className="absolute -right-10 bottom-0 flex rotate-6 flex-col gap-2 whitespace-nowrap font-display text-[11vw] uppercase leading-[0.82] text-accent/[0.06] md:text-[6vw]">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span key={i}>#streethub built for the real ones</span>
-          ))}
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal via-charcoal/70 to-transparent" />
       </div>
+
       <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-2 md:items-center md:gap-14 md:px-8 md:py-20">
         <div className="relative z-10">
-          <p data-hero-line className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+          <p data-hero-line className="mb-4 inline-block border-l-2 border-accent pl-3 text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
             Marketplace Streetwear #1
           </p>
           <h1 id="hero-title" className="font-display text-5xl leading-[0.92] uppercase text-offwhite sm:text-6xl lg:text-7xl">
             <span data-hero-line className="block">Built for the</span>
             <span data-hero-line className="block text-accent">Real Ones.</span>
           </h1>
-          <p data-hero-fade className="mt-6 max-w-md text-sm leading-relaxed text-muted">
+          <p data-hero-fade className="mt-5 max-w-md text-sm leading-relaxed text-muted">
             Temukan kaos, jaket, dan sneakers dari toko independen pilihan. Satu katalog,
             satu keranjang, banyak cerita.
           </p>
-          <div data-hero-fade className="mt-8 flex flex-wrap items-center gap-3">
+          <div data-hero-fade className="mt-7 flex flex-wrap items-center gap-3">
             <MagneticButton href="/shop" className="btn-outline" strength={12}>
               Shop Now <span aria-hidden>→</span>
             </MagneticButton>
@@ -107,26 +117,31 @@ export function HeroMotion() {
               Jadi Seller
             </MagneticButton>
           </div>
-          <dl data-hero-fade className="mt-10 flex gap-8 border-t border-mid pt-6">
-            <div><dt className="text-[10px] uppercase tracking-widest text-muted">Toko</dt><dd className="mt-1 font-display text-2xl text-offwhite">120+</dd></div>
-            <div><dt className="text-[10px] uppercase tracking-widest text-muted">Produk</dt><dd className="mt-1 font-display text-2xl text-offwhite">2.400+</dd></div>
-            <div><dt className="text-[10px] uppercase tracking-widest text-muted">Kota</dt><dd className="mt-1 font-display text-2xl text-offwhite">38</dd></div>
+          <dl data-hero-fade className="mt-9 grid grid-cols-3 border-t border-mid pt-5">
+            <div className="border-r border-mid pr-4">
+              <dt className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">Toko</dt>
+              <dd className="mt-1 font-display text-2xl text-offwhite">120+</dd>
+            </div>
+            <div className="border-r border-mid px-4">
+              <dt className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">Produk</dt>
+              <dd className="mt-1 font-display text-2xl text-offwhite">2.400+</dd>
+            </div>
+            <div className="pl-4">
+              <dt className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">Kota</dt>
+              <dd className="mt-1 font-display text-2xl text-offwhite">38</dd>
+            </div>
           </dl>
         </div>
 
         <div className="relative">
-          <span
-            aria-hidden
-            className="pointer-events-none absolute -left-4 top-1/2 z-0 -translate-y-1/2 whitespace-nowrap font-display text-[18vw] uppercase leading-none text-offwhite/[0.04] md:-left-16 md:text-[10vw]"
-          >
-            <span ref={watermark} className="block">StreetwearHub</span>
-          </span>
-          <div ref={imageWrap} className="relative z-10 aspect-[4/5] overflow-hidden border border-mid bg-black-sh" data-cursor>
+          <div ref={imageWrap} className="relative z-10 aspect-[4/5] overflow-hidden border border-mid bg-black-sh">
             <div className="absolute inset-0">
               <HeroModelLazy />
             </div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black-sh/80 to-transparent p-4">
-              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted">Model 3D interaktif · Seret untuk memutar</p>
+            <div className="pointer-events-none absolute bottom-3 left-3 border border-mid/80 bg-black-sh/80 px-2.5 py-1.5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-muted">
+                Model 3D · Seret untuk memutar
+              </p>
             </div>
           </div>
         </div>

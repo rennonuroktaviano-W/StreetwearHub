@@ -17,31 +17,36 @@ export function CategoryGrid() {
           Semua Kategori
         </Link>
       </div>
+
       <StaggerGroup className="grid grid-cols-2 gap-px border border-mid bg-mid md:grid-cols-4" stagger={0.1}>
         {CATEGORIES.map((category) => (
           <Link
             key={category.name}
             href={`/shop?kategori=${encodeURIComponent(category.name)}`}
-            className="category-card group relative aspect-square overflow-hidden bg-black-sh"
+            className="category-card group relative flex aspect-square flex-col overflow-hidden bg-black-sh"
             data-cursor
           >
-            <span className="pointer-events-none absolute inset-0" aria-hidden>
+            <div className="relative min-h-0 flex-1" aria-hidden>
               <CardModel3DLazy
                 url={category.modelUrl}
                 fallbackImage={category.image}
                 name={category.name}
-                color="#2e2e2e"
+                color="#3a3a3a"
               />
-            </span>
-            <span className="category-overlay absolute inset-0 bg-gradient-to-t from-black-sh via-black-sh/20 to-transparent transition-opacity duration-200 group-hover:opacity-90" aria-hidden />
-            <div className="absolute inset-x-0 bottom-0 p-4">
-              <h3 className="category-title font-display text-xl uppercase text-offwhite transition-transform duration-200 md:text-2xl">
+            </div>
+
+            <div className="relative z-10 shrink-0 border-t border-mid bg-black-sh/95 px-4 py-3">
+              <h3 className="category-title font-display text-lg uppercase leading-none text-offwhite transition-transform duration-200 md:text-xl">
                 {category.name}
               </h3>
-              <span className="category-rule mt-1 block h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-200" aria-hidden />
-              <div className="mt-1.5 flex items-center justify-between gap-2">
-                <p className="text-[10px] uppercase tracking-widest text-muted">{category.count} produk</p>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">Shop Now →</span>
+              <span className="category-rule mt-2 block h-px w-8 origin-left scale-x-0 bg-accent transition-transform duration-200" aria-hidden />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  {category.count} produk
+                </span>
+                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-accent">
+                  Shop Now →
+                </span>
               </div>
             </div>
           </Link>

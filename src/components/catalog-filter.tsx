@@ -1,16 +1,8 @@
 "use client";
 
 import { useCallback, useState, useTransition } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { FilterOptions, SortKey } from "@/lib/catalog-types";
-import { SORTS } from "@/lib/catalog-types";
-
-const sortLabels: Record<SortKey, string> = {
-  newest: "Terbaru",
-  "price-asc": "Harga Terendah",
-  "price-desc": "Harga Tertinggi",
-  "best-selling": "Terlaris",
-};
+import { useRouter, useSearchParams } from "next/navigation";
+import type { FilterOptions } from "@/lib/catalog-types";
 
 export function CatalogFilter({
   categories,
@@ -26,251 +18,143 @@ export function CatalogFilter({
   basePath?: string;
 }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const params = useSearchParams();
   const [pending, startTransition] = useTransition();
-  const [q, setQ] = useState(searchParams.get("q") ?? "");
+  const [minPrice, setMinPrice] = useState(params.get("minPrice") ?? "");
+  const [maxPrice, setMaxPrice] = useState(params.get("maxPrice") ?? "");
 
-  const current = useCallback(
-    (key: string) => searchParams.getAll(key),
-    [searchParams],
-  );
+  const current = useCallback((key: string) => params.getAll(key), [params]);
 
   const update = useCallback(
-    (mutate: (params: URLSearchParams) => void) => {
-      const params = new URLSearchParams(searchParams.toString());
-      mutate(params);
-      params.delete("page");
-      const query = params.toString();
-      startTransition(() => {
-        router.push(query ? `${basePath}?${query}` : basePath, { scroll: false });
-      });
+    (mutate: (p: URLSearchParams) => void) => {
+      const next = new URLSearchParams(params.toString());
+      mutate(next);
+      next.delete("page");
+      const query = next.toString();
+      startTransition(() => router.push(query ? `${basePath}?${query}` : basePath, { scroll: false }));
     },
-    [basePath, router, searchParams],
+    [basePath, params, router],
   );
 
-  const setSingle = (key: string, value: string) => {
-    update((params) => {
-      if (!value) params.delete(key);
-      else params.set(key, value);
+  const setSingle = (key: string, value: string) =>
+    update((p) => {
+      if (value) p.set(key, value);
+      else p.delete(key);
     });
-  };
 
-  const toggleMulti = (key: string, value: string) => {
-    update((params) => {
-      const values = params.getAll(key);
-      params.delete(key);
+  const toggle = (key: string, value: string) =>
+    update((p) => {
+      const values = p.getAll(key);
+      p.delete(key);
       const next = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
-      next.forEach((v) => params.append(key, v));
+      next.forEach((v) => p.append(key, v));
     });
-  };
 
   const activeCount =
     current("category").length +
     current("brand").length +
     current("size").length +
     current("color").length +
-    (searchParams.get("minPrice") ? 1 : 0) +
-    (searchParams.get("maxPrice") ? 1 : 0);
+    (params.get("minPrice") ? 1 : 0) +
+    (params.get("maxPrice") ? 1 : 0);
+
+  const btn = (active: boolean) =>
+    `border px-3 py-1.5 text-xs font-bold transition-colors duration-200 ${
+      active ? "border-accent bg-accent text-white" : "border-line text-muted hover:border-paper hover:text-paper"
+    }`;
 
   return (
-    <div className={`space-y-7 ${pending ? "opacity-70" : ""}`}>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          setSingle("q", q.trim());
-        }}
-      >
-        <label className="label-sh" htmlFor="catalog-search">Cari</label>
-        <div className="flex gap-2">
-          <input
-            id="catalog-search"
-            className="input-sh"
-            placeholder="Nama produk, brand, toko..."
-            value={q}
-            onChange={(event) => setQ(event.target.value)}
-            maxLength={100}
-          />
-          <button type="submit" className="btn-outline shrink-0 px-4" aria-label="Cari produk">
-            Cari
+    <div className={`space-y-6 ${pending ? "opacity-70" : ""}`}>
+      <div className="flex items-center justify-between border-b border-line pb-3">
+        <h2 className="font-display text-xl uppercase">Filter</h2>
+        {activeCount > 0 && (
+          <button
+            type="button"
+            className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline"
+            onClick={() =>
+              update((p) => {
+                ["category", "brand", "size", "color", "minPrice", "maxPrice"].forEach((key) => p.delete(key));
+              })
+            }
+          >
+            Hapus ({activeCount})
           </button>
-        </div>
-      </form>
-
-      <div>
-        <label className="label-sh" htmlFor="catalog-sort">Urutkan</label>
-        <select
-          id="catalog-sort"
-          className="input-sh"
-          value={searchParams.get("sort") ?? "newest"}
-          onChange={(event) => setSingle("sort", event.target.value === "newest" ? "" : event.target.value)}
-        >
-          {SORTS.map((sort) => (
-            <option key={sort} value={sort}>
-              {sortLabels[sort]}
-            </option>
-          ))}
-        </select>
+        )}
       </div>
 
-      <details className="border-b border-line pb-5" open>
-        <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Kategori</summary>
-        <div className="mt-4 space-y-2">
+      <fieldset className="border-b border-line pb-5">
+        <legend className="mb-3 text-[11px] font-bold uppercase tracking-widest text-paper">Kategori</legend>
+        <div className="space-y-2">
           <label className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-            <input
-              type="radio"
-              name="category"
-              className="accent-accent"
-              checked={!current("category").length}
-              onChange={() => setSingle("category", "")}
-            />
+            <input type="radio" name="category" className="accent-accent" checked={!current("category").length} onChange={() => setSingle("category", "")} />
             Semua kategori
           </label>
           {categories.map((category) => (
             <label key={category.id} className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-              <input
-                type="radio"
-                name="category"
-                className="accent-accent"
-                checked={current("category").includes(category.slug)}
-                onChange={() => setSingle("category", category.slug)}
-              />
+              <input type="radio" name="category" className="accent-accent" checked={current("category").includes(category.slug)} onChange={() => setSingle("category", category.slug)} />
               {category.name}
             </label>
           ))}
         </div>
-      </details>
+      </fieldset>
 
-      <details className="border-b border-line pb-5">
-        <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Brand</summary>
-        <div className="mt-4 space-y-2">
+      <fieldset className="border-b border-line pb-5">
+        <legend className="mb-3 text-[11px] font-bold uppercase tracking-widest text-paper">Brand</legend>
+        <div className="space-y-2">
           <label className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-            <input
-              type="radio"
-              name="brand"
-              className="accent-accent"
-              checked={!current("brand").length}
-              onChange={() => setSingle("brand", "")}
-            />
+            <input type="radio" name="brand" className="accent-accent" checked={!current("brand").length} onChange={() => setSingle("brand", "")} />
             Semua brand
           </label>
           {brands.map((brand) => (
             <label key={brand.id} className="flex cursor-pointer items-center gap-2 text-sm text-muted hover:text-paper">
-              <input
-                type="radio"
-                name="brand"
-                className="accent-accent"
-                checked={current("brand").includes(brand.slug)}
-                onChange={() => setSingle("brand", brand.slug)}
-              />
+              <input type="radio" name="brand" className="accent-accent" checked={current("brand").includes(brand.slug)} onChange={() => setSingle("brand", brand.slug)} />
               {brand.name}
             </label>
           ))}
         </div>
-      </details>
+      </fieldset>
 
-      <details className="border-b border-line pb-5">
-        <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Ukuran</summary>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {sizes.map((size) => {
-            const active = current("size").includes(size);
-            return (
-              <button
-                key={size}
-                type="button"
-                onClick={() => toggleMulti("size", size)}
-                aria-pressed={active}
-                className={`border px-3 py-1.5 text-xs font-bold transition ${
-                  active ? "border-accent bg-accent text-white" : "border-line text-muted hover:border-paper hover:text-paper"
-                }`}
-              >
-                {size}
-              </button>
-            );
-          })}
+      <fieldset className="border-b border-line pb-5">
+        <legend className="mb-3 text-[11px] font-bold uppercase tracking-widest text-paper">Ukuran</legend>
+        <div className="flex flex-wrap gap-2">
+          {sizes.map((size) => (
+            <button key={size} type="button" onClick={() => toggle("size", size)} aria-pressed={current("size").includes(size)} className={btn(current("size").includes(size))}>
+              {size}
+            </button>
+          ))}
         </div>
-      </details>
+      </fieldset>
 
-      <details className="border-b border-line pb-5">
-        <summary className="cursor-pointer text-xs font-bold uppercase tracking-widest">Warna</summary>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {colors.map((color) => {
-            const active = current("color").includes(color);
-            return (
-              <button
-                key={color}
-                type="button"
-                onClick={() => toggleMulti("color", color)}
-                aria-pressed={active}
-                className={`border px-3 py-1.5 text-xs font-bold transition ${
-                  active ? "border-accent bg-accent text-white" : "border-line text-muted hover:border-paper hover:text-paper"
-                }`}
-              >
-                {color}
-              </button>
-            );
-          })}
+      <fieldset className="border-b border-line pb-5">
+        <legend className="mb-3 text-[11px] font-bold uppercase tracking-widest text-paper">Warna</legend>
+        <div className="flex flex-wrap gap-2">
+          {colors.map((color) => (
+            <button key={color} type="button" onClick={() => toggle("color", color)} aria-pressed={current("color").includes(color)} className={btn(current("color").includes(color))}>
+              {color}
+            </button>
+          ))}
         </div>
-      </details>
+      </fieldset>
 
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          const data = new FormData(event.currentTarget);
-          update((params) => {
-            const min = String(data.get("minPrice") ?? "").trim();
-            const max = String(data.get("maxPrice") ?? "").trim();
-            if (min) params.set("minPrice", min);
-            else params.delete("minPrice");
-            if (max) params.set("maxPrice", max);
-            else params.delete("maxPrice");
+          update((p) => {
+            if (minPrice.trim()) p.set("minPrice", minPrice.trim());
+            else p.delete("minPrice");
+            if (maxPrice.trim()) p.set("maxPrice", maxPrice.trim());
+            else p.delete("maxPrice");
           });
         }}
       >
-        <label className="label-sh">Rentang Harga (IDR)</label>
+        <label className="mb-3 block text-[11px] font-bold uppercase tracking-widest text-paper">Rentang Harga (IDR)</label>
         <div className="flex items-center gap-2">
-          <input
-            className="input-sh"
-            name="minPrice"
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder="Min"
-            defaultValue={searchParams.get("minPrice") ?? ""}
-          />
+          <input className="input-sh" name="minPrice" type="number" min={0} inputMode="numeric" placeholder="Min" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} />
           <span className="text-muted">–</span>
-          <input
-            className="input-sh"
-            name="maxPrice"
-            type="number"
-            min={0}
-            inputMode="numeric"
-            placeholder="Maks"
-            defaultValue={searchParams.get("maxPrice") ?? ""}
-          />
+          <input className="input-sh" name="maxPrice" type="number" min={0} inputMode="numeric" placeholder="Maks" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
         </div>
-        <button type="submit" className="btn-outline mt-3 w-full py-3">Terapkan Harga</button>
+        <button type="submit" className="btn-outline mt-3 w-full py-3">Terapkan</button>
       </form>
-
-      {activeCount > 0 && (
-        <button
-          type="button"
-          className="w-full text-center text-xs font-bold uppercase tracking-widest text-accent hover:underline"
-          onClick={() => {
-            const preserved = new URLSearchParams();
-            const qValue = searchParams.get("q");
-            const sortValue = searchParams.get("sort");
-            if (qValue) preserved.set("q", qValue);
-            if (sortValue) preserved.set("sort", sortValue);
-            const query = preserved.toString();
-            startTransition(() => router.push(query ? `${basePath}?${query}` : basePath, { scroll: false }));
-          }}
-        >
-          Hapus semua filter ({activeCount})
-        </button>
-      )}
-
-      <span className="sr-only" aria-live="polite">Halaman: {pathname}</span>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart-provider";
 import { formatRupiah } from "@/lib/constants";
@@ -21,6 +21,7 @@ export function ProductPurchasePanel({
   sellerName,
   sellerSlug,
   variants,
+  onColorChange,
 }: {
   productId: string;
   productName: string;
@@ -29,6 +30,7 @@ export function ProductPurchasePanel({
   sellerName: string;
   sellerSlug: string;
   variants: PurchaseVariant[];
+  onColorChange?: (color: string | null) => void;
 }) {
   const router = useRouter();
   const { addItem } = useCart();
@@ -44,6 +46,10 @@ export function ProductPurchasePanel({
 
   const size = selected?.size ?? null;
   const color = selected?.color ?? null;
+
+  useEffect(() => {
+    onColorChange?.(color);
+  }, [color, onColorChange]);
 
   const pickVariant = (nextSize: string | null, nextColor: string | null) => {
     const match = variants.find((v) => v.size === nextSize && v.color === nextColor && v.stock > 0);

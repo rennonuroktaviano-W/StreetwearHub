@@ -2,10 +2,22 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ProductViewer3DWrapper } from "@/components/three/product-viewer-3d-wrapper";
 
 export type GalleryImage = { url: string; alt: string | null };
 
-export function ProductGallery({ images, name }: { images: GalleryImage[]; name: string }) {
+export function ProductGallery({
+  images,
+  name,
+  color,
+  show3D = false,
+}: {
+  images: GalleryImage[];
+  name: string;
+  color?: string | null;
+  show3D?: boolean;
+}) {
+  const [tab, setTab] = useState<"photos" | "3d">("photos");
   const [active, setActive] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const list = images.length ? images : [{ url: "", alt: null }];
@@ -25,51 +37,86 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setFullscreen(true)}
-        className="relative block aspect-[3/4] w-full overflow-hidden border border-line bg-[#141414]"
-        aria-label="Perbesar gambar produk"
-      >
-        {current.url ? (
-          <Image
-            key={current.url}
-            src={current.url}
-            alt={current.alt ?? name}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-contain"
-          />
-        ) : (
-          <span className="flex h-full items-center justify-center font-display text-7xl text-[#242424]">SH</span>
+      <div className="mb-3 flex gap-2" role="tablist" aria-label="Tampilan produk">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === "photos"}
+          onClick={() => setTab("photos")}
+          className={`border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] ${
+            tab === "photos" ? "border-accent bg-accent text-offwhite" : "border-mid text-muted hover:border-paper"
+          }`}
+        >
+          Foto
+        </button>
+        {show3D && (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={tab === "3d"}
+            onClick={() => setTab("3d")}
+            className={`border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] ${
+              tab === "3d" ? "border-accent bg-accent text-offwhite" : "border-mid text-muted hover:border-paper"
+            }`}
+          >
+            Model 3D
+          </button>
         )}
-      </button>
+      </div>
 
-      {list.length > 1 && (
-        <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-          {list.map((image, index) => (
-            <button
-              key={`${image.url}-${index}`}
-              type="button"
-              onClick={() => setActive(index)}
-              aria-label={`Lihat gambar ${index + 1}`}
-              aria-current={index === safeIndex}
-              className={`relative h-20 w-16 shrink-0 overflow-hidden border ${
-                index === safeIndex ? "border-accent" : "border-line hover:border-paper"
-              } bg-[#141414]`}
-            >
-              {image.url ? (
-                <Image src={image.url} alt={image.alt ?? `${name} ${index + 1}`} fill sizes="64px" className="object-cover" />
-              ) : (
-                <span className="flex h-full items-center justify-center text-xs text-muted">SH</span>
-              )}
-            </button>
-          ))}
+      {tab === "3d" ? (
+        <div className="aspect-[3/4] w-full border border-line bg-ink">
+          <ProductViewer3DWrapper color={color} fallbackImage={current.url || null} name={name} />
         </div>
+      ) : (
+        <>
+          <button
+            type="button"
+            onClick={() => setFullscreen(true)}
+            className="relative block aspect-[3/4] w-full overflow-hidden border border-line bg-[#141414]"
+            aria-label="Perbesar gambar produk"
+          >
+            {current.url ? (
+              <Image
+                key={current.url}
+                src={current.url}
+                alt={current.alt ?? name}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain"
+              />
+            ) : (
+              <span className="flex h-full items-center justify-center font-display text-7xl text-[#242424]">SH</span>
+            )}
+          </button>
+
+          {list.length > 1 && (
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+              {list.map((image, index) => (
+                <button
+                  key={`${image.url}-${index}`}
+                  type="button"
+                  onClick={() => setActive(index)}
+                  aria-label={`Lihat gambar ${index + 1}`}
+                  aria-current={index === safeIndex}
+                  className={`relative h-20 w-16 shrink-0 overflow-hidden border ${
+                    index === safeIndex ? "border-accent" : "border-line hover:border-paper"
+                  } bg-[#141414]`}
+                >
+                  {image.url ? (
+                    <Image src={image.url} alt={image.alt ?? `${name} ${index + 1}`} fill sizes="64px" className="object-cover" />
+                  ) : (
+                    <span className="flex h-full items-center justify-center text-xs text-muted">SH</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
 
-      {fullscreen && (
+      {fullscreen && tab === "photos" && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4"
           role="dialog"
@@ -102,7 +149,7 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
               <button
                 type="button"
                 className="border border-line px-4 py-2 text-xs font-bold uppercase hover:border-accent"
-                onClick={() => setActive((i) => (i + 1) % list.length)}
+                onClick={() => setActive((i) => (i + 1 + list.length) % list.length)}
               >
                 Berikutnya
               </button>

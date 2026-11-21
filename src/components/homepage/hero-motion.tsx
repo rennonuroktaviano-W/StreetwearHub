@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useMotionPrefs } from "@/components/motion/use-motion-prefs";
 import { MagneticButton } from "@/components/motion/magnetic-button";
+import { HeroModelLazy } from "@/components/three/hero-model-lazy";
 
 export function HeroMotion() {
   const root = useRef<HTMLDivElement>(null);
@@ -110,14 +110,12 @@ export function HeroMotion() {
             <span ref={watermark} className="block">StreetwearHub</span>
           </span>
           <div ref={imageWrap} className="relative z-10 aspect-[4/5] overflow-hidden border border-mid bg-black-sh" data-cursor>
-            <Image
-              src="/images/placeholder-hero.svg"
-              alt="Model streetwear dalam balutan kaos dan jaket StreetwearHub"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
+            <div className="absolute inset-0">
+              <HeroModelLazy />
+            </div>
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black-sh/80 to-transparent p-4">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted">Model 3D interaktif · Seret untuk memutar</p>
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSessionUser } from "@/lib/auth";
 import { ProductCard } from "@/components/product-card";
+import { Reveal } from "@/components/reveal";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -44,8 +45,9 @@ export default async function HomePage() {
     <>
       <section className="relative border-b border-line">
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 md:grid-cols-2 md:items-center md:px-8 md:py-24">
-          <div>
-            <p className="mb-4 text-xs font-bold tracking-[0.3em] text-accent">
+          <div className="animate-fade-up">
+            <p className="mb-4 flex items-center gap-2 text-xs font-bold tracking-[0.3em] text-accent">
+              <span className="animate-pulse-dot inline-block h-2 w-2 bg-accent" aria-hidden />
               DROP BARU / EDISI TERBATAS
             </p>
             <h1 className="font-display text-6xl leading-[0.9] uppercase sm:text-7xl md:text-8xl">
@@ -58,8 +60,9 @@ export default async function HomePage() {
               pilihan. Kurasi ketat, stok jelas, checkout sekali jalan.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/shop" className="btn-outline">
+              <Link href="/shop" className="btn-outline group">
                 Shop Sekarang
+                <span className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden>→</span>
               </Link>
               {!user && (
                 <Link href="/register" className="btn-accent">
@@ -68,15 +71,31 @@ export default async function HomePage() {
               )}
             </div>
           </div>
-          <div className="relative aspect-[4/5] overflow-hidden border border-line bg-[#151515]">
+          <div className="animate-fade-in relative aspect-[4/5] overflow-hidden border border-line bg-[#151515]">
             <Image
               src="/images/hero-model.svg"
               alt="Model mengenakan streetwear dari StreetwearHub"
               fill
               priority
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-700 hover:scale-[1.04]"
             />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            <span className="absolute bottom-4 left-4 border border-white/20 bg-black/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] backdrop-blur">
+              Est. 2026 / Indonesia
+            </span>
+          </div>
+        </div>
+        <div className="overflow-hidden border-t border-line bg-accent py-2" aria-hidden>
+          <div className="animate-marquee flex w-max gap-8 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.3em] text-white">
+            {Array.from({ length: 2 }).map((_, group) => (
+              <span key={group} className="flex gap-8">
+                <span>Fresh Drops Setiap Minggu</span><span>✦</span>
+                <span>Brand Independen Terverifikasi</span><span>✦</span>
+                <span>Gratis Ongkir Pesanan Pertama</span><span>✦</span>
+                <span>VA / E-Wallet / QRIS</span><span>✦</span>
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -93,7 +112,7 @@ export default async function HomePage() {
             Lihat Semua
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4">
+        <Reveal className="grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-4">
           {categories.length === 0 ? (
             <div className="col-span-full bg-ink p-10 text-center text-sm text-muted">
               Kategori belum tersedia.
@@ -127,7 +146,7 @@ export default async function HomePage() {
               </Link>
             ))
           )}
-        </div>
+        </Reveal>
       </section>
 
       <section className="border-y border-line bg-[#0d0d0d]" aria-labelledby="fresh-title">
@@ -148,21 +167,21 @@ export default async function HomePage() {
               Belum ada produk aktif. Jadilah seller pertama dan isi katalog ini.
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+            <Reveal className="grid grid-cols-2 gap-4 md:grid-cols-5">
               {fresh.slice(0, 5).map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
-            </div>
+            </Reveal>
           )}
         </div>
       </section>
 
       <section className="border-b border-line" aria-label="Keunggulan layanan">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-line px-0 md:grid-cols-4 md:px-8">
+        <Reveal className="mx-auto grid max-w-7xl grid-cols-2 gap-px bg-line px-0 md:grid-cols-4 md:px-8">
           {(["Pengiriman Cepat", "Pembayaran Aman", "Pengembalian Mudah", "Kualitas Premium"] as const).map(
             (title, i) => (
-              <div key={title} className="bg-ink px-5 py-8 text-center">
-                <span className="mb-3 block font-display text-3xl text-accent">0{i + 1}</span>
+              <div key={title} className="group bg-ink px-5 py-8 text-center transition-colors hover:bg-[#141414]">
+                <span className="mb-3 block font-display text-3xl text-accent transition-transform duration-200 group-hover:scale-110">0{i + 1}</span>
                 <h3 className="text-xs font-bold uppercase tracking-widest">{title}</h3>
                 <p className="mt-2 text-[11px] text-muted">
                   {["Dari seller ke pintumu", "VA, e-wallet, QRIS", "Proses dibantu admin", "Brand terverifikasi"][i]}
@@ -170,7 +189,7 @@ export default async function HomePage() {
               </div>
             ),
           )}
-        </div>
+        </Reveal>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 py-14 md:px-8" aria-labelledby="featured-title">
@@ -190,26 +209,30 @@ export default async function HomePage() {
             Produk unggulan akan muncul setelah seller menayangkan produk.
           </p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+          <Reveal className="grid grid-cols-2 gap-4 md:grid-cols-5">
             {featured.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-          </div>
+          </Reveal>
         )}
       </section>
 
-      <section className="border-t border-line bg-accent px-5 py-14 text-center text-white">
-        <h2 className="font-display text-4xl uppercase md:text-6xl">Punya Brand Sendiri?</h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm opacity-90">
-          Daftar sebagai seller, dapatkan toko online yang keren tanpa perlu bangun website dari nol.
-          Verifikasi oleh admin, lalu mulai jualan.
-        </p>
-        <Link
-          href="/seller/daftar"
-          className="mt-7 inline-flex border border-white px-7 py-3 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-accent"
-        >
-          Daftar Jadi Seller
-        </Link>
+      <section className="relative overflow-hidden border-t border-line bg-accent px-5 py-14 text-center text-white">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full border border-white/10" aria-hidden />
+        <Reveal>
+          <h2 className="font-display text-4xl uppercase md:text-6xl">Punya Brand Sendiri?</h2>
+          <p className="mx-auto mt-3 max-w-xl text-sm opacity-90">
+            Daftar sebagai seller, dapatkan toko online yang keren tanpa perlu bangun website dari nol.
+            Verifikasi oleh admin, lalu mulai jualan.
+          </p>
+          <Link
+            href="/seller/daftar"
+            className="group mt-7 inline-flex items-center gap-2 border border-white px-7 py-3 text-xs font-bold uppercase tracking-widest transition-colors hover:bg-white hover:text-accent"
+          >
+            Daftar Jadi Seller
+            <span className="animate-arrow-nudge transition-transform group-hover:translate-x-1" aria-hidden>→</span>
+          </Link>
+        </Reveal>
       </section>
     </>
   );

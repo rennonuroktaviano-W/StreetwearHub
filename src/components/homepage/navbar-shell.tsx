@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CartCount } from "@/components/cart-count";
 import { MobileMenu } from "@/components/homepage/mobile-menu";
@@ -36,6 +37,8 @@ function BagIcon() {
 
 export function NavbarShell({ accountHref }: { accountHref: string }) {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 24);
@@ -44,11 +47,13 @@ export function NavbarShell({ accountHref }: { accountHref: string }) {
     return () => window.removeEventListener("scroll", update);
   }, []);
 
+  const solid = !isHome || scrolled;
+
   return (
     <header
       data-navbar
       className={`sticky top-0 z-40 border-b transition-colors duration-200 ${
-        scrolled ? "border-mid bg-black-sh/90 backdrop-blur-md" : "border-transparent bg-transparent"
+        solid ? "border-mid bg-black-sh/90 backdrop-blur-md" : "border-transparent bg-transparent"
       }`}
     >
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 md:px-8">

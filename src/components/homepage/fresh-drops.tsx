@@ -47,6 +47,7 @@ export function FreshDrops() {
       if (!reduced && signature.current) {
         const path = signature.current;
         const length = path.getTotalLength();
+        if (!length) return;
         gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
         gsap.to(path, {
           strokeDashoffset: 0,

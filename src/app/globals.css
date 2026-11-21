@@ -28,6 +28,27 @@ html {
   scroll-behavior: smooth;
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+html.lenis {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background: #0b0b0b;
   color: #f5f5f3;
@@ -203,12 +224,14 @@ body {
   .add-to-cart-wrap {
     opacity: 0;
     transform: translateY(12px);
+    pointer-events: none;
   }
 
   .product-card:hover .add-to-cart-wrap,
   .product-card:focus-within .add-to-cart-wrap {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 }
 

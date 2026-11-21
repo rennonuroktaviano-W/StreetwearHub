@@ -104,11 +104,10 @@ export function HeroMotion() {
 
         <div className="relative">
           <span
-            ref={watermark}
             aria-hidden
             className="pointer-events-none absolute -left-4 top-1/2 z-0 -translate-y-1/2 whitespace-nowrap font-display text-[18vw] uppercase leading-none text-offwhite/[0.04] md:-left-16 md:text-[10vw]"
           >
-            StreetwearHub
+            <span ref={watermark} className="block">StreetwearHub</span>
           </span>
           <div ref={imageWrap} className="relative z-10 aspect-[4/5] overflow-hidden border border-mid bg-black-sh" data-cursor>
             <Image
